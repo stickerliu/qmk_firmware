@@ -13,27 +13,27 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include "oldguys60.h"
+#include QMK_KEYBOARD_H
 
-void matrix_init_kb(void) {
-    // Indicator pins
-    // F0 - Caps Lock
-    // Sinking setup - 5V -> LED/Resistor -> Pin
+enum layer_names {
+    _BASE,
+    _FN
+};
 
-    setPinOutput(F0);
+const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
+  [_BASE] = LAYOUT_all( /* Base */
+    KC_NUM,  KC_PSLS,  KC_PAST,  KC_PMNS,   
+    KC_P7,    KC_P8,    KC_P9,    KC_PPLS,    
+    KC_P4,    KC_P5,    KC_P6,    KC_PPLS,    
+    KC_P1,    KC_P2,    KC_P3,    KC_PENT,
+    KC_P0,    KC_P0,    KC_PDOT,  KC_PENT    
+  ),
+  [_FN] = LAYOUT_all( /* Fn */
+    _______, _______, _______, _______, 
+    _______, _______, _______, _______, 
+    _______, _______, _______, _______, 
+    _______, _______, _______, _______,
+    _______, _______, _______, _______
+  )
+};
 
-    matrix_init_user();
-}
-
-void led_set_kb(uint8_t usb_led) {
-    // Toggle indicator LEDs
-    // Since they are a sinking setup, write HIGH to DISABLE, LOW to ENABLE
-
-    if (IS_LED_ON(usb_led, USB_LED_CAPS_LOCK)) {
-        writePinLow(F0);
-
-    } else {
-        writePinHigh(F0);
-    }
-    led_set_user(usb_led);
-}
